@@ -3,9 +3,34 @@ var https = require('https');
 var fs = require('fs');
 var net = require('net');
 var url = require('url');
+var path = require('path');
 
 function request(req, resp) {
+    console.log("on request ...");
+
     var u = url.parse(req.url);
+
+    if(req.url.indexOf("/.well-known/acme-challenge/") > -1){
+        var folder = path.resolve(__dirname, '.');
+        var targetFile = req.url.split("/.well-known/acme-challenge/")[1];
+
+        fs.readFile(path.join(folder, "acme-challenge", targetFile), function(err,data){
+            if(err){
+                resp.writeHeader(404,{
+                    'content-type' : 'text/html;charset="utf-8"'
+                });
+                resp.write('<h1>404错误</h1><p>你要找的页面不存在</p>');
+                resp.end();
+            }else{
+                resp.writeHeader(200,{
+                    'content-type' : 'text/html;charset="utf-8"'
+                });
+                resp.write(data);
+                resp.end();
+            }
+        });
+        return;
+    }
 
     var options = {
         hostname : u.hostname,
@@ -48,11 +73,18 @@ function connect(req, socket) {
 }
 
 var options = {
-    key: fs.readFileSync('./certs/private.pem'),
-    cert: fs.readFileSync('./certs/public.crt')
+    //key: fs.readFileSync('./certs/server.key'),
+    //cert: fs.readFileSync('./certs/server.crt')
+    key: fs.readFileSync('./certs/privkey.pem'),
+    cert: fs.readFileSync('./certs/fullchain.pem')
 };
+
+http.createServer()
+    .on('request', request)
+    .on('connect', connect)
+    .listen(8080, '0.0.0.0');
 
 https.createServer(options)
     .on('request', request)
     .on('connect', connect)
-    .listen(8888, '0.0.0.0');
+    .listen(8443, '0.0.0.0');
