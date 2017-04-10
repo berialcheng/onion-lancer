@@ -2,6 +2,7 @@ FROM node
 
 COPY index.js /data/index.js
 COPY package.json /data/package.json
+COPY certs /data/certs
 
 WORKDIR /data
 RUN npm install
