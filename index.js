@@ -73,8 +73,8 @@ function connect(req, socket) {
 }
 
 var options = {
-    //key: fs.readFileSync('./certs/server.key'),
-    //cert: fs.readFileSync('./certs/server.crt')
+    //key: fs.readFileSync('./certs/privkey.pem'),
+    //cert: fs.readFileSync('./certs/fullchain.pem')
     key: fs.readFileSync('./certs/privkey.pem'),
     cert: fs.readFileSync('./certs/fullchain.pem')
 };
