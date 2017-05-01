@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/berialcheng/onion-lancer/issues"
   },
-  "homepage": "https://github.com/berialcheng/onion-lancer#readme"
+  "homepage": "https://github.com/berialcheng/onion-lancer#readme",
+  "dependencies": {
+    "multiparty": "^4.1.3"
+  }
 }
