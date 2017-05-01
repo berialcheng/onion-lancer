@@ -3,6 +3,8 @@ FROM node
 COPY index.js /data/index.js
 COPY package.json /data/package.json
 COPY certs /data/certs
+COPY html /data/html
+COPY pac /data/pac
 
 WORKDIR /data
 RUN npm install
