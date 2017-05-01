@@ -1,0 +1,17 @@
+{
+  "appenders": [
+    {
+      "type": "console",
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%d] [%[%5.5p%]] %c [%z] - %m"
+      }
+    },
+    {
+      "type": "file",
+      "filename": "logs/app.log",
+      "maxLogSize": 104857600,
+      "backups": 32
+    }
+  ]
+}

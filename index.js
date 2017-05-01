@@ -7,6 +7,14 @@ var path = require('path');
 var multiparty = require('multiparty');
 var form = new multiparty.Form();
 
+var uuidV4 = require('uuid/v4');
+
+var log4js = require('log4js');
+log4js.configure('log4js.json', { cwd: path.resolve(__dirname, '.') });
+
+var logger = log4js.getLogger();
+
+
 //  https://nodejs.org/api/http.html
 
 var whiteList = [];
@@ -14,7 +22,15 @@ var whiteList = [];
 function request(req, resp) {
     var u = url.parse(req.url);
 
-    console.log("on request ...", req.url);
+    var options = {
+        hostname: u.hostname,
+        port: u.port || 80,
+        path: u.path,
+        method: req.method,
+        headers: req.headers
+    };
+
+    logger.debug("%s %s %s:%s%s", req.connection.remoteAddress, options.method, options.hostname, options.port, options.path);
 
     var header=req.headers['authorization']||'',        // get the header
         token=header.split(/\s+/).pop()||'',            // and the encoded auth token
@@ -24,6 +40,7 @@ function request(req, resp) {
         password=parts[1];
 
     if(req.url.indexOf("proxy.pac") > -1) {
+        var folder = path.resolve(__dirname, '.');
         var folder = path.resolve(__dirname, '.');
 
         fs.readFile(path.join(folder, "pac", "proxy.pac"), function (err, data) {
@@ -53,8 +70,8 @@ function request(req, resp) {
                 resp.end();
             }else{
                 resp.writeHeader(200,{
-                    'content-type' : 'text/html;charset="utf-8"',
-                    'Set-Cookie': 'myCookie=test'
+                    'content-type' : 'text/html;charset="utf-8"'
+                    //'Set-Cookie': 'myCookie=test'
                 });
                 resp.write(data);
                 resp.end();
@@ -80,10 +97,9 @@ function request(req, resp) {
             }
         });
     }else if(req.url == "/signin"){
-        //console.log(req);
+        //logger.debug(req);
         form.parse(req, function (err, fields, files) {
             if(fields.username[0] == "onion" && fields.password[0] == "lancer"){
-                console.log("signin success");
                 if(whiteList.filter(function(ip){return ip == req.connection.remoteAddress}).length < 1){
                     whiteList.push(req.connection.remoteAddress)
                 }
@@ -91,16 +107,6 @@ function request(req, resp) {
         });
         resp.end();
     }else{
-        var options = {
-            hostname: u.hostname,
-            port: u.port || 80,
-            path: u.path,
-            method: req.method,
-            headers: req.headers
-        };
-
-        console.log("%s %s:%s%s", options.method, options.hostname, options.port, options.path);
-
         return;
         var forwardReq = http.request(options, function (forwardResp) {
             resp.writeHead(forwardResp.statusCode, forwardResp.headers);
@@ -121,10 +127,10 @@ function connect(req, socket, headers) {
         port     : u.port
     };
 
-    console.log("%s %s:%s  %s" , "CONNECT", options.hostname, options.port, headers, req.connection.remoteAddress);
+    logger.debug("%s %s %s:%s" , req.connection.remoteAddress, "CONNECT", options.hostname, options.port);
 
     if(whiteList.filter(function(ip){return ip == req.connection.remoteAddress}).length < 1){
-        console.log("ip not in white list");
+        logger.debug("ip not in white list");
         socket.end();
     }
 
@@ -132,7 +138,7 @@ function connect(req, socket, headers) {
         socket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
         forwardSocket.pipe(socket);
     }).on('error', function(e) {
-        console.log(e);
+        logger.error(e);
         socket.end();
     });
 
@@ -150,7 +156,7 @@ http.createServer()
     .on('request', request)
     .on('connect', connect)
     .listen(8080, '0.0.0.0', function(){
-        console.log("8080 listen");
+        logger.info("8080 listen");
 
         // var cookie = 'something=anything'
         //
@@ -169,7 +175,7 @@ http.createServer()
         // req.end();
         //
         // req.on('connect', function(res, socket, head){
-        //     console.log('got connected!');
+        //     logger.debug('got connected!');
         //
         //     // make a request over an HTTP tunnel
         //     socket.write('GET / HTTP/1.1\r\n' +
@@ -177,7 +183,7 @@ http.createServer()
         //         'Connection: close\r\n' +
         //         '\r\n');
         //     socket.on('data', function(chunk){
-        //         console.log(chunk.toString());
+        //         logger.debug(chunk.toString());
         //     });
         //     socket.on('end', function(){
         //         //proxy.close();
@@ -189,7 +195,7 @@ https.createServer(options)
     .on('request', request)
     .on('connect', connect)
     .listen(8443, '0.0.0.0', function(){
-        console.log("8443 listen");
+        logger.info("8443 listen");
 
         // var cookie = 'something=anything'
         //
@@ -208,7 +214,7 @@ https.createServer(options)
         // req.end();
         //
         // req.on('connect', function(res, socket, head){
-        //     console.log('got connected!');
+        //     logger.debug('got connected!');
         //
         //     // make a request over an HTTP tunnel
         //     socket.write('GET / HTTP/1.1\r\n' +
@@ -216,7 +222,7 @@ https.createServer(options)
         //         'Connection: close\r\n' +
         //         '\r\n');
         //     socket.on('data', function(chunk){
-        //         console.log(chunk.toString());
+        //         logger.debug(chunk.toString());
         //     });
         //     socket.on('end', function(){
         //         //proxy.close();
