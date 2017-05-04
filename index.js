@@ -5,7 +5,6 @@ var net = require('net');
 var url = require('url');
 var path = require('path');
 var multiparty = require('multiparty');
-var form = new multiparty.Form();
 
 var uuidV4 = require('uuid/v4');
 
@@ -116,21 +115,30 @@ function request(req, resp) {
                 }
             });
         }else if(req.url == "/signin" && options.method == "POST") {
+            var form = new multiparty.Form();
             form.parse(req, function (err, fields, files) {
-                if (fields.username && fields.password && fields.username[0] == "onion" && fields.password[0] == "lancer") {
-                    if (whiteList.filter(function (ip) {
-                            return ip == req.connection.remoteAddress
-                        }).length < 1) {
-                        whiteList.push(req.connection.remoteAddress);
-                    }
-                } else {
+                if(err){
+                    logger.error(err);
                     resp.writeHead(302, {
                         'Location': '/error.html'
                         //add other headers here...
                     });
+                }else{
+                    if (fields.username && fields.password && fields.username[0] == "onion" && fields.password[0] == "lancer") {
+                        if (whiteList.filter(function (ip) {
+                                return ip == req.connection.remoteAddress
+                            }).length < 1) {
+                            whiteList.push(req.connection.remoteAddress);
+                        }
+                    } else  {
+                        resp.writeHead(302, {
+                            'Location': '/error.html'
+                            //add other headers here...
+                        });
+                    }
                 }
+                resp.end();
             });
-            resp.end();
         }else{
             resp.writeHead(404, {
                 'Location': '/error.html'

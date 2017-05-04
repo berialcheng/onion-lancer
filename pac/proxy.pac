@@ -25,7 +25,6 @@ var FindProxyForURL = function(init, profiles) {
               if (/(?:^|\.)google-analytics\.com$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)doubleclick\.net$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)facebook\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)baidu\.com$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)wordpress\.com$/.test(host)) return "+HTTP Proxy";
               return "DIRECT";
     },
