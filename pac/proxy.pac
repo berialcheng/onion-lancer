@@ -20,14 +20,18 @@ var FindProxyForURL = function(init, profiles) {
               if (/(?:^|\.)docker\.com$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)stackoverflow\.com$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)youtube\.com$/.test(host)) return "+HTTP Proxy";
+              if (/(?:^|\.)ytimg\.com$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)slideshare\.net$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)google-analytics\.com$/.test(host)) return "+HTTP Proxy";
+              if (/(?:^|\.)doubleclick\.net$/.test(host)) return "+HTTP Proxy";
               if (/(?:^|\.)facebook\.com$/.test(host)) return "+HTTP Proxy";
+              if (/(?:^|\.)baidu\.com$/.test(host)) return "+HTTP Proxy";
+              if (/(?:^|\.)wordpress\.com$/.test(host)) return "+HTTP Proxy";
               return "DIRECT";
     },
     "+HTTP Proxy": function(url, host, scheme) {
         "use strict";
         if (/^<local>,192\.168\./.test(host)) return "DIRECT";
-        return "HTTPS web-proxy.berialcheng.com:443";
+        return "HTTPS localhost:8443";
     }
 });

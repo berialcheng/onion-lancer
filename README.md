@@ -30,8 +30,8 @@ openssl ca -in server.csr -out server.crt -cert ca.crt -keyfile ca.key
 
 ```
 docker run -idt \
- -v /data/lib/containers/letsencrypt/archive/web-proxy.berialcheng.com/privkey1.pem:/data/certs/privkey.pem \
- -v /data/lib/containers/letsencrypt/archive/web-proxy.berialcheng.com/fullchain1.pem:/data/certs/fullchain.pem \
+ -v /data/lib/containers/letsencrypt/archive/{domain}/privkey1.pem:/data/certs/privkey.pem \
+ -v /data/lib/containers/letsencrypt/archive/{domain}/fullchain1.pem:/data/certs/fullchain.pem \
  -v /tmp/certbot/public_html/.well-known/acme-challenge:/data/acme-challenge \
  -p 80:8080 -p 443:8443 \
  --name onion-lancer \
