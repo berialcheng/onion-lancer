@@ -1,10 +1,11 @@
 FROM node
 
+COPY app /data/app
 COPY index.js /data/index.js
 COPY package.json /data/package.json
 COPY certs /data/certs
-COPY html /data/html
-COPY pac /data/pac
+COPY public /data/public
+COPY views /data/views
 COPY log4js.json /data/log4js.json
 
 WORKDIR /data

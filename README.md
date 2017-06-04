@@ -33,6 +33,7 @@ docker run -idt \
  -v /data/lib/containers/letsencrypt/archive/{domain}/privkey1.pem:/data/certs/privkey.pem \
  -v /data/lib/containers/letsencrypt/archive/{domain}/fullchain1.pem:/data/certs/fullchain.pem \
  -v /tmp/certbot/public_html/.well-known/acme-challenge:/data/acme-challenge \
+ -v /data/lib/containers/onion-lancer/pac:/data/views \
  -p 80:8080 -p 443:8443 \
  --name onion-lancer \
  berialcheng/onion-lancer
