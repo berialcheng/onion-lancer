@@ -6,7 +6,7 @@ var url = require('url');
 var path = require('path');
 var multiparty = require('multiparty');
 
-var uuidV4 = require('uuid/v4');
+var uuid = require('uuid');
 
 var log4js = require('log4js');
 log4js.configure('log4js.json', { cwd: path.resolve(__dirname, '.') });
@@ -38,7 +38,7 @@ function request(req, resp) {
 
     if(u.hostname == null){ // Non Proxy Request
         app(req, resp);
-    } else{ // Proxy Request
+    } else { // Proxy Request
         resp.end();
         return;
 
@@ -54,6 +54,8 @@ function request(req, resp) {
 }
 
 function connect(req, socket, headers) {
+    var correlationId = uuid.v4();
+
     var u = url.parse('http://' + req.url);
 
     var options = {
@@ -61,18 +63,20 @@ function connect(req, socket, headers) {
         port     : u.port
     };
 
-    logger.debug("%s %s %s:%s" , req.connection.remoteAddress, "CONNECT", options.hostname, options.port);
+    logger.debug("%s %s %s %s:%s", correlationId , req.connection.remoteAddress, "CONNECT", options.hostname, options.port);
 
     if(!user.inWhiteList(req.connection.remoteAddress)){
-
         socket.end();
     }else{
         var forwardSocket = net.connect(options.port, options.hostname, function() {
             socket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
             forwardSocket.pipe(socket);
         }).on('error', function(e) {
-            logger.error(e);
+            logger.error("%s", correlationId, e);
             socket.end();
+        }).on('close', function(had_error){
+            logger.error("%s had_error", correlationId);
+            forwardSocket.end();
         });
         socket.pipe(forwardSocket);
     }
