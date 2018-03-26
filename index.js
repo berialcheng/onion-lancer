@@ -75,7 +75,7 @@ function connect(req, socket, headers) {
             logger.error("%s", correlationId, e);
             socket.end();
         }).on('close', function(had_error){
-            logger.error("%s had_error", correlationId);
+            logger.error("%s had_error", correlationId, had_error);
             forwardSocket.end();
         });
         socket.pipe(forwardSocket);
