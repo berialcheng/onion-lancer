@@ -11,27 +11,67 @@ var FindProxyForURL = function(init, profiles) {
 }("+local", {
     "+local": function(url, host, scheme) {
        "use strict";
-              if (/(?:^|\.)google\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)googleapis\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)gstatic\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)googleusercontent\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)googlesyndication\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)googleadservices\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)docker\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)stackoverflow\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)youtube\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)ytimg\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)slideshare\.net$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)google-analytics\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)doubleclick\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)facebook\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)wordpress\.com$/.test(host)) return "+HTTP Proxy";
-              if (/(?:^|\.)baidu\.com$/.test(host)) return "+HTTP Proxy";
-              return "DIRECT";
-    },
-    "+HTTP Proxy": function(url, host, scheme) {
-        "use strict";
-        if (/^<local>,192\.168\./.test(host)) return "DIRECT";
-        return "HTTPS localhost:8443";
-    }
+            if (/(?:^|\.)google\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)google\.co\..*$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)google\.com\.(\w)+$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)google\.cn$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)googleapis\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)gstatic\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)googleusercontent\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)googlesyndication\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)googleadservices\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)googlevideo\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)firebaseio\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)docker\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)youtube\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)youtube\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)youtu\.be$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)youtube-nocookie\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)ytimg\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)slideshare\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)google-analytics\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)doubleclick\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)facebook\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)facebook\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)wordpress\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)dropbox\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)zh\.wikipedia\.org$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)s3\.amazonaws\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)amazonaws\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)twitter\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)twimg\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)instagram\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)bitfinex\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)archive\.org$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)vimeo\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)medium\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)mybluemix\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)zb\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)telegram\.org$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)tdesktop\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)paypal\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)huobipro\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)goo\.gl$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)ggpht\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)fbcdn\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)github\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)stackoverflow\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)sstatic\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)aws\.amazon\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)steamcommunity\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)steampowered\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)quora\.com$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)tensorflow\.org$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)dartlang\.org$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)pixiv\.net$/.test(host)) return "+HTTPS Proxy";
+            if (/(?:^|\.)pixiv\.org$/.test(host)) return "+HTTPS Proxy";
+            return "DIRECT";
+  },
+  "+HTTPS Proxy": function(url, host, scheme) {
+      "use strict";
+      if (/^<local>,192\.168\./.test(host)) return "DIRECT";
+      if (/^172\.16\./.test(host)) return "DIRECT";
+      if (/^10\.0\./.test(host)) return "DIRECT";
+      return "HTTPS www.onioner.biz:443";
+  }
 });
