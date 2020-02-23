@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    onioner:
+        container_name: onioner
+        image: "berialcheng/onion-lancer"
+        volumes:
+            - ./logs:/data/logs
+            - ./certs:/data/certs
+            - ./pac:/data/views
+            - /tmp/certbot/public_html/.well-known/acme-challenge:/data/acme-challenge
+        ports:
+            - "80:8080"
+            - "443:8443"
