@@ -1,5 +1,12 @@
 # onion-lancer
  Pierce the unspoken wall
+ 
+![CI](https://github.com/berialcheng/onion-lancer/workflows/CI/badge.svg?branch=master)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)]()
+
+[![GitHub stars](https://img.shields.io/github/stars/berialcheng/onion-lancer.svg?style=social&label=Stars&style=plastic)]()
+[![GitHub watchers](https://img.shields.io/github/watchers/berialcheng/onion-lancer.svg?style=social&label=Watch&style=plastic)]()
+[![GitHub forks](https://img.shields.io/github/forks/berialcheng/onion-lancer.svg?style=social&label=Fork&style=plastic)]()
 
 # Getting Started
 
